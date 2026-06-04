@@ -1056,6 +1056,23 @@ async function appendFunctions() {
   //enable CookieClicker
   document.getElementById("wrapper").style.visibility = "visible";
 
+  function fixedHardcore() {
+  cookieUpgrades=0;
+    for (var i in Game.UpgradesById) {
+    	var me=Game.UpgradesById[i];
+    		if (me.bought && Game.CountsAsUpgradeOwned(me.pool) && me.pool=="cookie") {
+                cookieUpgrades++;
+                i=9999; //break free of the loop
+            }
+		}
+if (Game.cookiesEarned>=1000000000 && cookieUpgrades==0 && (Game.ascensionMode==1 || Game.resets==0)) Game.Win('Hardcore');
+}
+
+// Register your custom logic function to the game's loop
+Game.registerHook('logic', fixedHardcore);
+
+Game.Achievements['Hardcore'].ddesc = 'Get to <b>1 billion cookies</b> baked with <b>no cookie upgrades purchased</b>.';
+
   apNotes = new APNotes();
 
   // Override debug functions
