@@ -49,6 +49,10 @@ document.head.append(scriptToast);
     }).showToast();
 */
 
+/**
+ * FIXME The APReset is not a proper reset, some values are left dirty.
+ * Examples : buildings stays visible, AP buffs are not reapplied
+ */
 Game.APReset = () => {
   console.log("=== GAME RESET ===");
   Game.HardReset(2);
@@ -292,6 +296,8 @@ function connectAP(e) {
     console.log("Connected to server: ", packet);
     await appendFunctions();
     save();
+
+    if (window.APCC_TESTING_FLAG) window.APCC_runTests();
   });
 
   window.client.socket.on("roomUpdate", (packet) => {
@@ -755,7 +761,7 @@ function receiveItem(itemId, firstTime) {
   function receiveUpgrade(upgrade) {
     let u = upgrade || Game.UpgradesById[itemId - OFFSET.ITEMS.UPGRADES - 1];
     u.unlocked = 1;
-    u.basePrice = -1;
+    u.basePrice = 0;
     if (u.buy?.() !== 1) {
       // If there is no buy function, set it to bought manually
       u.bought = 1;
@@ -966,7 +972,7 @@ function receiveItem(itemId, firstTime) {
   }
   if (OFFSET.ITEMS.isTrap(itemId) && firstTime) {
     const buildings = Game.ObjectsById.filter(a => a.amount);
-    let building = buildings[Math.floor(Math.random() * buildings.length)];
+    let building = buildings[Math.floor(Math.random() * buildings.length)] || Game.Objects["Grandma"];
 
     switch (itemId) {
       case OFFSET.ITEMS.TRAPS + 0 :
@@ -1380,7 +1386,7 @@ Game.Achievements['Hardcore'].ddesc = 'Get to <b>1 quadrillion cookies</b> baked
         up.unlocked = 0;
         if (up.pool === "prestige") {
           up.bought = 1;
-          up.basePrice = -1;
+          up.basePrice = 0;
         }
       }
     });
@@ -1394,7 +1400,7 @@ Game.Achievements['Hardcore'].ddesc = 'Get to <b>1 quadrillion cookies</b> baked
   ].forEach(up => Game.Upgrades[up].unlocked = 0);
   // Same for  Prestige upgrades linked to pool items, or used as progressive buildings but not in the item pool
   prestigeUps.forEach(up => {
-        Game.Upgrades[up].basePrice = -1;
+        Game.Upgrades[up].basePrice = 0;
         Game.Upgrades[up].parents = [];
       })
   Game.RebuildUpgrades();
