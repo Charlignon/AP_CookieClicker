@@ -354,12 +354,15 @@ window.APCC_runTests = () => setTimeout(() => {
     }),
   );
 
+  /**
+   * Still unsure how to go with that, I'm not quite happy yet with the output format
+   */
   let buildingTests = [tests_notProgressive, tests_progressive];
   buildingTests.map(testSuite => {
     testSuite.run();
     testSuite.printReport();
   })
   console.testLog("=== END OF BUILDING TESTS ===")
-
+  console.testLog(buildingTests); // For easy access in console
   console.testLog("### End of tests ! To debug a single test, select a test object and right click > 'Store as a global variable', then run it.\nDon't forget to re-enable debug level logs")
 }, 1000); // 1s timeout to let the main script get data from the server
