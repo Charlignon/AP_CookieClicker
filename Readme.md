@@ -15,7 +15,7 @@ Go to your browser's addon store, and install ViolentMonkey or TamperMonkey (not
 Tampermonkey might require you to set your Browser into Developer Mode
 
 - **Step 2:**
-Find the [latest release](github.com/Charlignon/AP_CookieClicker/releases/latest) of this Archipelago client, and click on `APModCookieClicker.user.js`
+Find the [latest release](https://github.com/Charlignon/AP_CookieClicker/releases/latest) of this Archipelago client, and click on `APModCookieClicker.user.js`
 
 - **Step 3:**
 A new page should open (illustration below). Install or reinstall the script 
